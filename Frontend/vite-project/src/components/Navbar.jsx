@@ -13,8 +13,10 @@ const Navbar = () => {
 
   const navLinks = [
     { id: "Dashboard", label: "Dashboard", path: "/users/Dashboard" },
-    { id: "Profile", label: "Profile", path: "/users/profile" },
+    { id: "Pemasukan", label: "Pemasukan", path: "/users/Pemasukan" },
+    { id: "Pengeluaran", label: "Pengeluaran", path: "/users/Pengeluaran" },
     { id: "Settings", label: "Settings", path: "/users/Settings" },
+    { id: "Logout", label: "Logout", path: "/users/Logout" },
   ];
 
   return (
