@@ -1,15 +1,18 @@
 import { schemaSignUp } from "../../validation/schemaSignUp";
 import { NextFunction, Request,Response } from "express";
-import { customRequest } from "../../model/signUp";
+import { ObjectSchema } from "joi";
 
-export const validationSignUp = (req:customRequest,res:Response,next:NextFunction) => {
-    const {error,value} = schemaSignUp.validate(req.body)
-
-    if(error){
-        return next(error)
+export const validationSignUp = (schema : ObjectSchema) => {
+    return (req : Request, res : Response , next : NextFunction) => {
+        console.log(schema)
+        console.log(req)
+        const {error,value} = schema.validate(req.body)
+    
+        if(error){
+            return next(error)
+        }
+    
+        req.body = value
+        next()
     }
-
-    req.validationSignUp = value
-
-    return next()
-}
+}   
