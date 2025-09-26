@@ -1,13 +1,11 @@
 import { createUserService } from "../../service/auth/signUp";
-import { NextFunction, Response } from "express";
-import { requestControl } from "../../model/signUp";
+import { Request,NextFunction, Response } from "express";
 
 export const createUserController = async (req : Request,res : Response,next : NextFunction) => {
 
-    const { validationSignUp } = req as unknown as requestControl
-
     try {
-        const result = await createUserService(validationSignUp)
+        const result = await createUserService(req.body)
+        console.log(result)
         res.status(201).json({
             message : "Create account success",
             data : result
