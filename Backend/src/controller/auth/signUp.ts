@@ -5,7 +5,6 @@ export const createUserController = async (req : Request,res : Response,next : N
 
     try {
         const result = await createUserService(req.body)
-        console.log(result)
         res.status(201).json({
             message : "Create account success",
             data : result
