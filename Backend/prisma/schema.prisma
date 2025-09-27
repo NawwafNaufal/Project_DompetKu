@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -14,18 +13,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Register {
+model User {
   id  String @id @default(uuid())
-  username String
-  email String
+  username String @unique
+  email String @unique
   password String
-  tanggal_lahir DateTime @default(now())
-  role String
-  pengeluaran_id String 
+  dateOfBirth DateTime 
+  role RoleType @default(User)
+  refreshToken String?
   created_at DateTime @default(now())
   update_at DateTime @default(now())
+  transaction Transaction[]
 }
 
-model Pengeluaran {
+model Transaction {
   id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  type TransactionType
+  amount Decimal @db.Decimal(18,2)
+  description String? @db.VarChar(255)
+  created_at DateTime @default(now())
+
+  @@index([userId,created_at])
+}
+
+enum TransactionType {
+  Income
+  Expense
+}
+
+enum RoleType {
+  User
+  Admin
 }
