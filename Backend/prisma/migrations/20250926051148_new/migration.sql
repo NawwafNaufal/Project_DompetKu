@@ -4,8 +4,9 @@ CREATE TABLE `User` (
     `username` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
-    `dateOfBirth` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `role` VARCHAR(191) NOT NULL,
+    `dateOfBirth` DATETIME(3) NOT NULL,
+    `role` ENUM('User', 'Admin') NOT NULL DEFAULT 'User',
+    `refreshToken` VARCHAR(191) NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `update_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
@@ -18,11 +19,12 @@ CREATE TABLE `User` (
 CREATE TABLE `Transaction` (
     `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
-    `type` ENUM('INCOME', 'EXPENSE') NOT NULL,
+    `type` ENUM('Income', 'Expense') NOT NULL,
     `amount` DECIMAL(18, 2) NOT NULL,
     `description` VARCHAR(255) NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
+    INDEX `Transaction_userId_created_at_idx`(`userId`, `created_at`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

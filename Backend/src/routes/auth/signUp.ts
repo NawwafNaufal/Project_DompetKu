@@ -5,6 +5,6 @@ import { schemaSignUp } from "../../validation/schemaSignUp";
 
 const route = Router()
 
-route.post("/sign-up",validationSignUp(schemaSignUp),createUserController)
+route.post("/sign-up",validationSignUp,createUserController)
 
 export default route
