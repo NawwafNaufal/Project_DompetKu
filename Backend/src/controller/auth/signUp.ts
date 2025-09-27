@@ -1,4 +1,4 @@
-import { signUp } from "../../model/signUp";
+import { signUp } from "../../model/auth";
 import { createUserService } from "../../service/auth/signUp";
 import { Request,NextFunction, Response } from "express";
 

@@ -20,10 +20,10 @@ model User {
   password String
   dateOfBirth DateTime 
   role RoleType @default(User)
-  refreshToken String?
   created_at DateTime @default(now())
   update_at DateTime @default(now())
   transaction Transaction[]
+  refreshtoken RefreshToken[]
 }
 
 model Transaction {
@@ -36,6 +36,14 @@ model Transaction {
   created_at DateTime @default(now())
 
   @@index([userId,created_at])
+}
+
+model RefreshToken {
+  id String @id @default(uuid())
+  userId String @unique
+  user User @relation(fields: [userId],references: [id])
+  token String
+  expiredAt DateTime
 }
 
 enum TransactionType {

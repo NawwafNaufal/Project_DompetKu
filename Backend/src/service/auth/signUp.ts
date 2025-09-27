@@ -1,5 +1,5 @@
 import {PrismaClient,RoleType,User} from "@prisma/client"
-import type { signUp } from "../../model/signUp"
+import type { signUp } from "../../model/auth"
 import bcrypt from "bcrypt"
 import { responseError } from "../../error/responseError"
 
