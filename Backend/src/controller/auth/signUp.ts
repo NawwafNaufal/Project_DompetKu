@@ -1,10 +1,13 @@
+import { signUp } from "../../model/signUp";
 import { createUserService } from "../../service/auth/signUp";
 import { Request,NextFunction, Response } from "express";
 
 export const createUserController = async (req : Request,res : Response,next : NextFunction) => {
 
+    const data = req.body as signUp
+
     try {
-        const result = await createUserService(req.body)
+        const result = await createUserService(data)
         console.log(result)
         res.status(201).json({
             message : "Create account success",

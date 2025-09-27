@@ -20,6 +20,7 @@ model User {
   password String
   dateOfBirth DateTime 
   role RoleType @default(User)
+  refreshToken String?
   created_at DateTime @default(now())
   update_at DateTime @default(now())
   transaction Transaction[]
@@ -33,6 +34,8 @@ model Transaction {
   amount Decimal @db.Decimal(18,2)
   description String? @db.VarChar(255)
   created_at DateTime @default(now())
+
+  @@index([userId,created_at])
 }
 
 enum TransactionType {
