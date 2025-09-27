@@ -22,3 +22,9 @@ export interface logInWithEmail {
 }
 
 export type LogIn = logInWithUsername | logInWithEmail
+
+export interface refreshToken {
+    userId : string,
+    token : string,
+    expiredAt : Date
+}

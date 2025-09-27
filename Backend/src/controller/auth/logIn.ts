@@ -7,7 +7,8 @@ export const logInController = async (req:Request,res:Response,next:NextFunction
         
         res.status(200).json({
             message : "logIn Success",
-            token : result
+            accessToken : result.accessToken,
+            refreshToken : result.refreshToken
         })
     } catch (error) {
         return next(error)

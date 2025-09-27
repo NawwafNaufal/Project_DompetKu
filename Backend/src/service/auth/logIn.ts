@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { responseError } from "../../error/responseError";
-import type { LogIn } from "../../model/auth";
+import type { LogIn,refreshToken } from "../../model/auth";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import dotenv from "dotenv"
@@ -40,10 +40,20 @@ export const logInService = async (data : LogIn) => {
             username : dataLogin,
             dateOfBirth : getUser.dateOfBirth,
             role : getUser.role
+        }        
+        const accessToken = jwt.sign(payload,jwtKey,{expiresIn : '1h'})
+        const refreshToken = jwt.sign({username : payload.username},jwtKey,{expiresIn : '30d'})
+        
+        const refToken : refreshToken = {
+            userId : getUser.id, 
+            token : refreshToken,
+            expiredAt : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         }
 
-        const token = jwt.sign(payload,jwtKey,{expiresIn : '1h'})
+        prisma.refreshToken.create({
+                data: refToken
+        })
 
-        return token 
+        return {accessToken,refreshToken}
 
 }
