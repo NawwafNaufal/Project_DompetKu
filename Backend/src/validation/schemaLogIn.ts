@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const scehmaLogIn = Joi.object({
+export const schemaLogIn = Joi.object({
                 username : Joi.string()
                             .max(12),
                 email : Joi.string()
