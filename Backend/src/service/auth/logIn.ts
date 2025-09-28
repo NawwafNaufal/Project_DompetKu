@@ -4,6 +4,7 @@ import type { LogIn,refreshToken } from "../../model/auth";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import dotenv from "dotenv"
+import cookie from "cookie"
 
 const prisma = new PrismaClient()
 dotenv.config()
@@ -50,7 +51,7 @@ export const logInService = async (data : LogIn) => {
             expiredAt : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         }
 
-        prisma.refreshToken.create({
+        await prisma.refreshToken.create({
                 data: refToken
         })
 
