@@ -1,6 +1,8 @@
 import express from "express"
 import dotenv from "dotenv"
 import { Request,Response } from "express"
+import { validateJwt } from "./middleware/validation/validationJwt"
+import cookieParser from "cookie-parser"
 
 dotenv.config()
 
@@ -8,12 +10,13 @@ const app = express()
 const PORT = process.env.PORT
 
 app.use(express.json())
+app.use(cookieParser())
 
 import signUp from "./routes/auth/signUp"
 import logIn from "./routes/auth/logIn"
 
 
-app.get("/",(req : Request,res : Response) => {
+app.get("/",validateJwt,(req : Request,res : Response) => {
     res.status(200).json({
         message : "Hello World"
     })
