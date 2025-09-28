@@ -15,6 +15,7 @@ app.use(cookieParser())
 
 import signUp from "./routes/auth/signUp"
 import logIn from "./routes/auth/logIn"
+import logOut from "./routes/auth/logOut"
 
 
 app.get("/",validateJwt,validateRole(["Admin"]),(req : Request,res : Response) => {
@@ -25,6 +26,7 @@ app.get("/",validateJwt,validateRole(["Admin"]),(req : Request,res : Response) =
 
 app.use("/auth",signUp)
 app.use("/auth",logIn)
+app.use("/auth",logOut)
 
 import { errorHandling } from "./middleware/errorHandling/error"
 app.use(errorHandling)
