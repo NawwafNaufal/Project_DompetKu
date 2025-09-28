@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import { Request,Response } from "express"
 import { validateJwt } from "./middleware/validation/validationJwt"
 import cookieParser from "cookie-parser"
+import { validateRole } from "./middleware/validation/validationRole"
 
 dotenv.config()
 
@@ -16,7 +17,7 @@ import signUp from "./routes/auth/signUp"
 import logIn from "./routes/auth/logIn"
 
 
-app.get("/",validateJwt,(req : Request,res : Response) => {
+app.get("/",validateJwt,validateRole(["Admin"]),(req : Request,res : Response) => {
     res.status(200).json({
         message : "Hello World"
     })
