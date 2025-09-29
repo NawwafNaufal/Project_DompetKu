@@ -1,16 +1,22 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import dotenv from "dotenv";
-import { Request, Response } from "express";
-import { validateJwt } from "./middleware/validation/validationJwt";
 import cookieParser from "cookie-parser";
-import { validateRole } from "./middleware/validation/validationRole";
 import cors from "cors";
+
+import { validateJwt } from "./middleware/validation/validationJwt";
+import { validateRole } from "./middleware/validation/validationRole";
+import { errorHandling } from "./middleware/errorHandling/error";
+
+import signUp from "./routes/auth/signUp";
+import logIn from "./routes/auth/logIn";
+import logOut from "./routes/auth/logOut";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
 
+// Middleware
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -22,10 +28,12 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-import signUp from "./routes/auth/signUp";
-import logIn from "./routes/auth/logIn";
-import logOut from "./routes/auth/logOut";
+// Routes
+app.use("/auth", signUp);
+app.use("/auth", logIn);
+app.use("/auth", logOut);
 
+// Protected route example
 app.get(
   "/",
   validateJwt,
@@ -37,13 +45,10 @@ app.get(
   }
 );
 
-app.use("/auth", signUp);
-app.use("/auth", logIn);
-app.use("/auth", logOut);
-
-import { errorHandling } from "./middleware/errorHandling/error";
+// Error handling middleware
 app.use(errorHandling);
 
+// Start server
 app.listen(PORT, () => {
   console.log("Server Connect In Port : ", PORT);
 });
