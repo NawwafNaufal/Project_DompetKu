@@ -4,6 +4,7 @@ import { Request,Response } from "express"
 import { validateJwt } from "./middleware/validation/validationJwt"
 import cookieParser from "cookie-parser"
 import { validateRole } from "./middleware/validation/validationRole"
+import cors from "cors"
 
 dotenv.config()
 
@@ -16,6 +17,12 @@ app.use(cookieParser())
 import signUp from "./routes/auth/signUp"
 import logIn from "./routes/auth/logIn"
 import logOut from "./routes/auth/logOut"
+
+app.use(cors({
+    origin: "http://localhost:5173", 
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+}));
 
 
 app.get("/",validateJwt,validateRole(["Admin"]),(req : Request,res : Response) => {
