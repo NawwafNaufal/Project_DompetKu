@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState("Dashboard");
@@ -16,8 +17,25 @@ const Navbar = () => {
     { id: "Pemasukan", label: "Pemasukan", path: "/users/Pemasukan" },
     { id: "Pengeluaran", label: "Pengeluaran", path: "/users/Pengeluaran" },
     { id: "Settings", label: "Settings", path: "/users/Settings" },
-    { id: "Logout", label: "Logout", path: "/users/Logout" },
   ];
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:3000/auth/logout",
+        {},
+        { withCredentials: true }
+      );
+
+      localStorage.removeItem("token");
+
+      alert("Logout berhasil!");
+      navigate("/auth/login");
+    } catch (error) {
+      console.error("Logout gagal:", error);
+      alert("Logout gagal, coba lagi.");
+    }
+  };
 
   return (
     <nav className="bg-white shadow-md p-4 relative">
@@ -35,14 +53,21 @@ const Navbar = () => {
 
         <div className="hidden sm:flex gap-6">
           {navLinks.map((link) => (
-            <button
+            <Link
               key={link.id}
+              to={link.path}
               className={linkClass(link.id)}
               onClick={() => setActiveSection(link.id)}
             >
               {link.label}
-            </button>
+            </Link>
           ))}
+          <button
+            onClick={handleLogout}
+            className="text-red-600 font-semibold text-sm hover:underline"
+          >
+            Logout
+          </button>
         </div>
       </div>
 
@@ -58,17 +83,24 @@ const Navbar = () => {
           &times;
         </button>
         {navLinks.map((link) => (
-          <button
+          <Link
             key={link.id}
+            to={link.path}
             className={linkClass(link.id)}
             onClick={() => {
               setActiveSection(link.id);
-              navigate(link.path);
+              setIsOpen(false);
             }}
           >
             {link.label}
-          </button>
+          </Link>
         ))}
+        <button
+          onClick={handleLogout}
+          className="text-red-600 font-semibold text-sm hover:underline"
+        >
+          Logout
+        </button>
       </div>
     </nav>
   );
