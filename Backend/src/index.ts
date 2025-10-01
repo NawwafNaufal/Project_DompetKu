@@ -1,3 +1,11 @@
+import express from "express"
+import dotenv from "dotenv"
+import { Request,Response } from "express"
+import { validateJwt } from "./middleware/validation/validationJwt"
+import cookieParser from "cookie-parser"
+import { validateRole } from "./middleware/validation/validationRole"
+import { getDataController } from "./controller/admin/getDataTransaction"
+import cors from "cors"
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -22,6 +30,13 @@ app.use(
     origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
+}));
+
+app.get("/getData",getDataController)
+
+
+app.get("/",validateJwt,validateRole(["Admin"]),(req : Request,res : Response) => {
+=======
   })
 );
 

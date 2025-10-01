@@ -15,6 +15,15 @@ export const createUserService = async (data: signUp): Promise<User> => {
     where: { username: data.username },
   });
 
+    if(getEmailUser) {
+        throw new responseError(400,"Email already exist") 
+    }
+    if(getUsernameUser) {
+        throw new responseError(400,"Username already exist") 
+    }
+    if(!data.dateOfBirth) {
+        throw new responseError(400,"dateOfBirth is required") 
+    }
   if (getEmailUser) {
     throw new responseError(400, "Email already exist");
   }
