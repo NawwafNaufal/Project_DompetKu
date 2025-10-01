@@ -21,6 +21,9 @@ export const createUserService = async (data : signUp): Promise<User> => {
     if(getUsernameUser) {
         throw new responseError(400,"Username already exist") 
     }
+    if(!data.dateOfBirth) {
+        throw new responseError(400,"dateOfBirth is required") 
+    }
 
     const createUser = await prisma.user.create({
     data : {

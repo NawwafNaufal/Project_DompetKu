@@ -10,7 +10,4 @@ export const schemaSignUp = Joi.object({
                         password : Joi.string()
                                 .required()
                                 .min(6),
-                        dateOfBirth : Joi.date()
-                                .required()
-                                .iso()
 })
