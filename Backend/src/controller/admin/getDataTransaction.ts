@@ -25,7 +25,7 @@ export const getDataController = async (req:Request,res:Response,next:NextFuncti
                 }
             })
         
-            await redis.set(cacheKey,JSON.stringify(result))
+            await redis.setex(cacheKey, 3600, JSON.stringify(result));
         
             return res.status(200).json({
                 data : getRedis,
