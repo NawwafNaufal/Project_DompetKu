@@ -4,7 +4,6 @@ import type { LogIn,refreshToken } from "../../model/auth";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import dotenv from "dotenv"
-import cookie from "cookie"
 
 const prisma = new PrismaClient()
 dotenv.config()
@@ -37,13 +36,15 @@ export const logInService = async (data : LogIn) => {
         if(!validatePassword) throw new responseError(400,"Wrong Password")
 
         const payload = {
+            id : getUser.id,
             email : dataLogin,
             username : dataLogin,
             dateOfBirth : getUser.dateOfBirth,
             role : getUser.role
         }        
-        const accessToken = jwt.sign(payload,jwtKey,{expiresIn : '1h'})
-        const refreshToken = jwt.sign({username : payload.username},jwtKey,{expiresIn : '30d'})
+
+        const accessToken =await jwt.sign(payload,jwtKey,{expiresIn : '1h'})
+        const refreshToken =await jwt.sign({username : payload.username},jwtKey,{expiresIn : '30d'})
         
         const refToken : refreshToken = {
             userId : getUser.id, 

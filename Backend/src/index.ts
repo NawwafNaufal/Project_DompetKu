@@ -4,7 +4,6 @@ import { Request,Response } from "express"
 import { validateJwt } from "./middleware/validation/validationJwt"
 import cookieParser from "cookie-parser"
 import { validateRole } from "./middleware/validation/validationRole"
-import { getDataController } from "./controller/admin/getDataTransaction"
 import cors from "cors"
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
@@ -21,8 +20,10 @@ import logOut from "./routes/auth/logOut";
 
 dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT;
+import signUp from "./routes/auth/signUp"
+import logIn from "./routes/auth/logIn"
+import logOut from "./routes/auth/logOut"
+import getData from "./routes/admin/getUsers"
 
 // Middleware
 app.use(
@@ -32,16 +33,14 @@ app.use(
     credentials: true,
 }));
 
-app.get("/getData",getDataController)
 
 
 app.get("/",validateJwt,validateRole(["Admin"]),(req : Request,res : Response) => {
-=======
-  })
-);
-
-app.use(express.json());
-app.use(cookieParser());
+    res.status(200).json({
+        message : "Hello World"
+    })
+})
+app.use("/",getData)
 
 // Routes
 app.use("/auth", signUp);
