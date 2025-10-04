@@ -6,9 +6,9 @@ export const logInController = async (req:Request,res:Response,next:NextFunction
     try {
         const result = await logInService(req.body)
 
-        res.cookie("accessToken",cookiesOptions.accessToken)
+        res.cookie("accessToken",result.accessToken,cookiesOptions.accessToken)
 
-        res.cookie("refreshToken",cookiesOptions.refreshToken)
+        res.cookie("refreshToken",result.refreshToken,cookiesOptions.refreshToken)
         
         res.status(200).json({
             message : "logIn Success",
