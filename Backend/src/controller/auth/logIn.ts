@@ -1,10 +1,14 @@
-import { Request,Response,NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { logInService } from "../../service/auth/logIn";
 import cookiesOptions from "../../../utils/cookies/options";
 
-export const logInController = async (req:Request,res:Response,next:NextFunction) => {
-    try {
-        const result = await logInService(req.body)
+export const logInController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = await logInService(req.body);
 
         res.cookie("accessToken",result.accessToken,cookiesOptions.accessToken)
 
