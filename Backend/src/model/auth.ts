@@ -1,3 +1,5 @@
+import { Transaction } from "@prisma/client";
+
 enum roleType {
   User = "User",
   Admin = "Admin",
@@ -27,4 +29,10 @@ export interface refreshToken {
   userId: string;
   token: string;
   expiredAt: Date;
+}
+
+export interface dataUser {
+  data : Transaction[] , 
+  source : "Cache" | "Db",
+  total: number
 }

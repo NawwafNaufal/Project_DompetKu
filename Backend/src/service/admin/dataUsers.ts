@@ -1,11 +1,11 @@
 import redis from "../../../config/redis";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../config/prismaClient";
+import { dataUser } from "../../model/auth";
 
-export const getUsersService = async (userId : string, take : number, page : number) => {
+export const getUsersService = async (userId : string, take : number, page : number): Promise<dataUser> => {
 
     const skip = (page -1) * take
 
-    const prisma = new PrismaClient()
         const cacheKey = `transactions:${userId}-page:${page}-take:${take}`
         
             const getFromRedis = await redis.get(cacheKey)
@@ -14,15 +14,21 @@ export const getUsersService = async (userId : string, take : number, page : num
                 return {data : parse , source : "Cache",total: parse.totalData}
             }
 
-            const getFromDb = await prisma.transaction.findMany({
-                where : {
-                    userId : userId as string
-                },
-                skip : skip,
-                take : take
-            })
-
-            const totalData = await prisma.transaction.count()
+            const [getFromDb,totalData] = await Promise.all([
+                prisma.transaction.findMany({
+                    where : {
+                        userId : userId as string
+                    },
+                    skip : skip,
+                    take : take
+                }),
+    
+                prisma.transaction.count({
+                    where: {
+                        userId : userId
+                    }
+                })
+            ])
         
             await redis.setex(cacheKey, 3600, JSON.stringify({getFromDb,totalData}));
 
