@@ -1,11 +1,10 @@
-import { PrismaClient } from "@prisma/client";
 import { responseError } from "../../error/responseError";
 import type { LogIn,refreshToken } from "../../model/auth";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import dotenv from "dotenv"
+import prisma from "../../../config/prismaClient";
 
-const prisma = new PrismaClient()
 dotenv.config()
 
 export const logInService = async (data : LogIn) => {

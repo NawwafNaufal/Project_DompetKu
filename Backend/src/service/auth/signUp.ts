@@ -1,9 +1,8 @@
-import {PrismaClient,RoleType,User} from "@prisma/client"
 import type { signUp } from "../../model/auth"
 import bcrypt from "bcrypt"
 import { responseError } from "../../error/responseError"
-
-const prisma = new PrismaClient()
+import prisma from "../../../config/prismaClient"
+import {RoleType,User} from "@prisma/client"
 
 export const createUserService = async (data : signUp): Promise<User> => {
     const hash = await bcrypt.hash(data.password,10)
