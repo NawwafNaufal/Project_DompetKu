@@ -5,6 +5,11 @@ enum roleType {
   Admin = "Admin",
 }
 
+enum typeTransaction {
+    Income = "Income",
+    Expense = "Expense"
+}
+
 export interface signUp {
   username: string;
   email: string;
@@ -29,6 +34,12 @@ export interface refreshToken {
   userId: string;
   token: string;
   expiredAt: Date;
+}
+
+export interface transaction {
+  type : typeTransaction,
+  amount : number
+  description : string
 }
 
 export interface dataUser {
