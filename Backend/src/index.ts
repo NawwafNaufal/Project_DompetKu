@@ -16,6 +16,7 @@ import signUp from "./routes/auth/signUp"
 import logIn from "./routes/auth/logIn"
 import logOut from "./routes/auth/logOut"
 import getData from "./routes/admin/getUsers"
+import createTransaction from "./routes/transaction/createTransaction"
 
 app.use(
   cors({
@@ -32,6 +33,8 @@ app.use("/",getData)
 app.use("/auth", signUp);
 app.use("/auth", logIn);
 app.use("/auth", logOut);
+
+app.use("/", createTransaction);
 
 app.use(errorHandling);
 

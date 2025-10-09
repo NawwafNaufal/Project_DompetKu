@@ -30,7 +30,7 @@ export const getUsersService = async (userId : string, take : number, page : num
                 })
             ])
         
-            await redis.setex(cacheKey, 3600, JSON.stringify({getFromDb,totalData}));
+            await redis.setex(cacheKey, 60, JSON.stringify({getFromDb,totalData}));
 
             return {data : getFromDb , source : "Db",total : totalData}
 }
