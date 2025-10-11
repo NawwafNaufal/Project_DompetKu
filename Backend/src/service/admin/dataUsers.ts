@@ -6,7 +6,14 @@ export const getUsersService = async (userId : string, take : number, page : num
 
     const skip = (page -1) * take
 
-        const cacheKey = `transactions:${userId}-page:${page}-take:${take}`
+        const versionKey = `transaction:${userId}:version`
+        let version = await redis.get(versionKey)
+        if(!version){
+            version = "1"
+            await redis.set(versionKey,version)
+        }
+
+        const cacheKey = `transactions:${userId}:v${version}-page:${page}-take:${take}`;
         
             const getFromRedis = await redis.get(cacheKey)
             if(getFromRedis){
@@ -30,7 +37,7 @@ export const getUsersService = async (userId : string, take : number, page : num
                 })
             ])
         
-            await redis.setex(cacheKey, 60, JSON.stringify({getFromDb,totalData}));
+            await redis.setex(cacheKey, 320, JSON.stringify({getFromDb,totalData}));
 
             return {data : getFromDb , source : "Db",total : totalData}
 }
