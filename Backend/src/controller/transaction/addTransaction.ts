@@ -2,7 +2,7 @@ import { Response,Request,NextFunction } from "express";
 import { transaction } from "../../model/auth";
 import { createTransactionService } from "../../service/transaction/createTransaction";
 
-export const createTransactionController = async (req : Request, res : Response , next : NextFunction) => {
+export const createTransactionController = async (req : Request, res : Response, next : NextFunction) => {
     const getIdUser = res.locals.user
     const data = req.body as transaction
 
